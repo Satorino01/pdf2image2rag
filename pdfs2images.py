@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from pathlib import Path
 from pdf2image import convert_from_path
-
+import shutil
 
 def main() -> None:
     pdf_dir = Path("pdfs")
@@ -11,6 +11,9 @@ def main() -> None:
         raise SystemExit(f"入力ディレクトリがありません: {pdf_dir.resolve()}")
 
     images_root.mkdir(exist_ok=True)
+    for child in images_root.iterdir():
+        if child.is_dir():
+            shutil.rmtree(child)
     pdf_files = sorted(pdf_dir.glob("*.pdf"))
 
     if not pdf_files:
